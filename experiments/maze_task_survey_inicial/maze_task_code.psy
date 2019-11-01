@@ -1,0 +1,587 @@
+#28.05.2018
+
+options
+  fullscreen
+  resolution 1024 800
+  mouse off
+
+bitmaps
+  instructions1        instructions/instructions1.png
+  instructions2        instructions/instructions2.png
+  instructions3        instructions/instructions3.png
+  instructions4        instructions/instructions4.png
+  instructions5        instructions/instructions5.png
+  instructions6        instructions/instructions6.png
+  instructions7        instructions/instructions7.png
+  instructions8        instructions/instructions8.png
+  instructions9        instructions/instructions9.png
+  instructions10       instructions/instructions10.png
+  FimTreinamento    instructions/FimTreinamento.png
+  FimTarefa              instructions/fimTarefa.png
+  pausa                    instructions/pausa.png
+  getReadyBlue
+
+fonts
+  arial 40
+
+#inclui as frases/tabelas (arquivo foi importado para o experimento -> view files)
+include phraseTables.txt
+
+#separa uma parte do código que pode ser usado vezes nas tarefas (tipo uma função)
+
+
+part trainingPhrase
+  keys a l      #a = 1 palavra da esquerda, l=2 -> palavra da direita
+  set $x random from 1 2
+  if $x == 1
+    draw off
+      show text @1 -250  25 255 255 255
+      show text @2 250  25 255 255 255
+    draw on
+    readkey @4 7000
+  fi
+  if $x == 2
+    draw off
+      show text @2 -250  25 255 255 255
+      show text @1 250  25 255 255 255
+    draw on
+    readkey @5 7000
+  fi
+  clear -1 -2   #limpa os dois últimos "show"
+  if STATUS == CORRECT
+    if TABLEROW == 4  #chegou no final da frase
+      show text "CORRECT!" 0 0 35 142 35
+      delay 1500
+      clear -1     #limpa o último "show"
+    fi
+  fi
+  if STATUS == WRONG
+    if TABLEROW != 1    #se for a primeira frase, desconsidera o erro
+      show text "INCORRECT!" 0 0 255 0 0
+      delay 1500
+      clear -1     #limpa o último "show"
+    end tasklist   #finaliza a tarefa (frase) atual e chama a próxima
+  fi
+fi
+if STATUS == TIMEOUT
+end tasklist   #finaliza a tarefa (frase) atual e chama a próxima
+fi
+
+part showPhrase
+  keys a l      #a = 1 palavra da esquerda, l=2 -> palavra da direita
+  set $x random from 1 2
+  if $x == 1
+    draw off
+      show text @1 -250  25 255 255 255
+      show text @2 250  25 255 255 255
+    draw on
+    readkey @4 7000
+    save BLOCKORDER TASKNAME @3 TABLEROW @1 @2 @4 RT STATUS
+  fi
+  if $x == 2
+    draw off
+      show text @2 -250  25 255 255 255
+      show text @1 250  25 255 255 255
+    draw on
+    readkey @5 7000
+    save BLOCKORDER TASKNAME @3 TABLEROW @2 @1 @5 RT STATUS
+  fi
+  clear -1 -2   #limpa os dois últimos "show"
+  if STATUS == CORRECT
+    if TABLEROW == 4  #chegou no final da frase
+      show text "CORRECT!" 0 0 35 142 35
+      delay 1500
+      clear -1     #limpa o último "show"
+    fi
+  fi
+  if STATUS == WRONG
+    if TABLEROW != 1    #se for a primeira frase, desconsidera o erro
+      show text "INCORRECT!" 0 0 255 0 0
+      delay 1500
+      clear -1     #limpa o último "show"
+    end tasklist   #finaliza a tarefa (frase) atual e chama a próxima
+  fi
+fi
+if STATUS == TIMEOUT
+end tasklist   #finaliza a tarefa (frase) atual e chama a próxima
+fi
+
+#para cada tabela, cria uma tarefa que:
+#carrega uma linha da tabela "fraseX"
+#executa a parte do código "showPhrase"
+
+task frase1
+  mouse hide
+  table dative1
+  part showPhrase
+
+task frase2
+  table dative2
+  part showPhrase
+
+task frase3
+  table dative3
+  part showPhrase
+
+task frase4
+  table dative4
+  part showPhrase
+
+task frase5
+  table dative5
+  part showPhrase
+
+task frase6
+  table dative6
+  part showPhrase
+
+task frase7
+  table dative7
+  part showPhrase
+
+task frase8
+  table dative8
+  part showPhrase
+
+task frase9
+  table nounPhrase1
+  part showPhrase
+
+task frase10
+  table nounPhrase2
+  part showPhrase
+
+task frase11
+  table nounPhrase3
+  part showPhrase
+
+task frase12
+  table nounPhrase4
+  part showPhrase
+
+task frase13
+  table nounPhrase5
+  part showPhrase
+
+task frase14
+  table nounPhrase6
+  part showPhrase
+
+task frase15
+  table nounPhrase7
+  part showPhrase
+
+task frase16
+  table nounPhrase8
+  part showPhrase
+
+task frase17
+  table thirdPerson1
+  part showPhrase
+
+task frase18
+  table thirdPerson2
+  part showPhrase
+
+task frase19
+  table thirdPerson3
+  part showPhrase
+
+task frase20
+  table thirdPerson4
+  part showPhrase
+
+task frase21
+  table thirdPerson5
+  part showPhrase
+
+task frase22
+  table thirdPerson6
+  part showPhrase
+
+task frase23
+  table thirdPerson7
+  part showPhrase
+
+task frase24
+  table thirdPerson8
+  part showPhrase
+
+task frase25
+  table question1
+  part showPhrase
+
+task frase26
+  table question2
+  part showPhrase
+
+task frase27
+  table question3
+  part showPhrase
+
+task frase28
+  table question4
+  part showPhrase
+
+task frase29
+  table question5
+  part showPhrase
+
+task frase30
+  table question6
+  part showPhrase
+
+task frase31
+  table question7
+  part showPhrase
+
+task frase32
+  table question8
+  part showPhrase
+
+task frase33
+  table training1
+  part trainingPhrase
+
+task frase34
+  table training2
+  part trainingPhrase
+
+task frase35
+  table training3
+  part trainingPhrase
+
+task frase36
+  table training4
+  part trainingPhrase
+
+task frase37
+  table training5
+  part trainingPhrase
+
+task frase38
+  table training6
+  part trainingPhrase
+
+task frase39
+  table training7
+  part trainingPhrase
+
+task frase40
+  table training8
+  part trainingPhrase
+
+#Até aqui, só monta a estrutura da execução
+#Os blocos, a seguir, que realmente executam o experimento
+
+block instructions
+  #Mostra as instruções
+  message instructions1
+  message instructions2
+  message instructions3
+  message instructions4 a
+  message instructions5
+  message instructions6 l
+  message instructions7
+  message instructions8 a
+  pager instructions9 instructions10
+
+#mostra mensagem de 50%
+block b_pause
+  message pausa
+
+#mostra a mensagem final
+block final
+  message FimTarefa
+
+block b_training1
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase33 4 fixed
+  end
+
+block b_training2
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase34 4 fixed
+  end
+
+block b_training3
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase35 4 fixed
+  end
+
+block b_training4
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase36 4 fixed
+  end
+
+block b_training5
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase37 4 fixed
+  end
+
+block b_training6
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase38 4 fixed
+  end
+
+block b_training7
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase39 4 fixed
+  end
+
+block b_training8
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase40 4 fixed
+  end
+  message FimTreinamento
+
+#Cada bloco executa uma tarefa (a tarefa executa apenas uma linha da tabela)
+#Como são 4 linhas, a tarefa é execuda 4 vezes
+
+block b1
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase1 4 fixed
+  end
+
+block b2
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase2 4 fixed
+  end
+
+block b3
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase3 4 fixed
+  end
+
+block b4
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase4 4 fixed
+  end
+
+block b5
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase5 4 fixed
+  end
+
+block b6
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase6 4 fixed
+  end
+
+block b7
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase7 4 fixed
+  end
+
+block b8
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase8 4 fixed
+  end
+
+block b9
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase9 4 fixed
+  end
+
+block b10
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase10 4 fixed
+  end
+
+block b11
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase11 4 fixed
+  end
+
+block b12
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase12 4 fixed
+  end
+
+block b13
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase13 4 fixed
+  end
+
+block b14
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase14 4 fixed
+  end
+
+block b15
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase15 4 fixed
+  end
+
+block b16
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase16 4 fixed
+  end
+
+block b17
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase17 4 fixed
+  end
+
+block b18
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase18 4 fixed
+  end
+
+block b19
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase19 4 fixed
+  end
+
+block b20
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase20 4 fixed
+  end
+
+block b21
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase21 4 fixed
+  end
+
+block b22
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase22 4 fixed
+  end
+
+block b23
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase23 4 fixed
+  end
+
+block b24
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase24 4 fixed
+  end
+
+block b25
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase25 4 fixed
+  end
+
+block b26
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase26 4 fixed
+  end
+
+block b27
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase27 4 fixed
+  end
+
+block b28
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase28 4 fixed
+  end
+
+block b29
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase29 4 fixed
+  end
+
+block b30
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase30 4 fixed
+  end
+
+block b31
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase31 4 fixed
+  end
+
+block b32
+  bitmap getReadyBlue
+  delay 1500
+  tasklist
+    frase32 4 fixed
+  end
+
+
+#cria várias ordens de execução dos blocos, a fim de gerar aleatóriedade
+#cada vez que o experimento é executado, apenas uma dessas ordens será seguida
+#a escolha de qual ordem será execudada é aleatória
+
+#inclui as possíveis ordens de execução (arquivo foi importado para o experimento -> view files)
+include blockOrder.txt

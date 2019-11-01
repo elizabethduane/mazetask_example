@@ -1,0 +1,95 @@
+#06.08.2018
+
+options
+  fullscreen
+  resolution 1024 800 
+  mouse off
+
+bitmaps
+  repetirTarefa
+  fimTarefa            
+  pausa                  
+  getReadyBlue
+
+fonts
+  arial 40
+
+#inclui as frases/tabelas (arquivo foi importado para o experimento -> view files)
+include phraseTablesA.txt
+
+#separa uma parte do código que pode ser usado vezes nas tarefas (tipo uma função)
+
+part showPhrase
+  keys a l      #a = 1 palavra da esquerda, l=2 -> palavra da direita
+  set $x random from 1 2
+  if $x == 1
+    draw off
+      show text @1 -250  25 255 255 255
+      show text @2 250  25 255 255 255
+    draw on
+    readkey @4 7000
+    save BLOCKORDER TASKNAME @3 TABLEROW @1 @2 @4 RT STATUS
+  fi
+  if $x == 2
+    draw off
+      show text @2 -250  25 255 255 255
+      show text @1 250  25 255 255 255
+    draw on
+    readkey @5 7000
+    save BLOCKORDER TASKNAME @3 TABLEROW @2 @1 @5 RT STATUS
+  fi
+  clear -1 -2   #limpa os dois últimos "show"
+  if STATUS == CORRECT
+    if TABLEROW == 4  #chegou no final da frase
+        show text "CORRECT!" 0 0 35 142 35
+        delay 1500   
+        clear -1     #limpa o último "show"
+    fi
+  fi
+  if STATUS == WRONG
+    if TABLEROW != 1    #se for a primeira frase, desconsidera o erro
+      show text "INCORRECT!" 0 0 255 0 0
+      delay 1500   
+      clear -1     #limpa o último "show"
+      end tasklist   #finaliza a tarefa (frase) atual e chama a próxima
+    fi
+  fi
+  if STATUS == TIMEOUT
+    end tasklist   #finaliza a tarefa (frase) atual e chama a próxima 
+  fi
+
+#para cada tabela, cria uma tarefa que:
+#carrega uma linha da tabela "fraseX"
+#executa a parte do código "showPhrase"
+
+#task fraseX
+# table X
+# part showPhrase
+
+#script completo no arquivo
+include scriptTask_A.txt
+
+#Até aqui, só monta a estrutura da execução
+#Os blocos, a seguir, que realmente executam o experimento
+
+block instructions
+ #Mostra as instruções
+ message repetirTarefa 
+
+#mostra mensagem de 50%
+block b_pause
+  message pausa
+
+#mostra a mensagem final
+block final
+  message fimTarefa
+
+#script completo no arquivo
+include scriptBlock_A.txt
+
+#cria várias ordens de execução dos blocos, a fim de gerar aleatóriedade
+#cada vez que o experimento é executado, apenas uma dessas ordens será seguida
+#a escolha de qual ordem será execudada é aleatória
+
+#inclui as possíveis ordens de execução (arquivo foi importado para o experimento -> view files)
+include blockOrderA.txt
